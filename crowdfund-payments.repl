@@ -6,25 +6,15 @@
 (env-data {"current-time": "1970-01-01T00:00:00Z"})
 (load "coin.pact")
 (load "crowdfund-payments.pact")
-(commit-tx)
-(use uber-4-cats-crowdfund)
 (coin.create-account 'grumpy-cat-llc 'grumpy-cat-llc-keyset)
-
-; create account
-; define table
-; (create-table payments-table)
-; TODO why don't I need to create a table here?
-
-; create accounts
-; TODO why is this angry?
-;; (create-account "Sarah" 100.25 (read-keyset "sarah-keyset"))
-;; (create-account "James" 250.0 (read-keyset "james-keyset"))
+(use uber-4-cats-crowdfund)
 
 
-;; do payment, simluating SARAH keyset.
-; TODO why doesn't this work?
-;(pay "Sarah" "James" 25.0 (read-keyset "james-keyset"))
-;; (format "Sarah's balance is {}" [(get-balance "Sarah")])
+(fund "Alice" 100.00)
 
-;; read James' balance as JAMES
-;; (format "James's balance is {}" [(get-balance "James")])
+(expect-failure "cannot fund with $0" (fund "Alice" 0.00))
+
+(expect-failure "cannot fund with negative dollars" (fund "Alice" 100.00))
+
+
+(rollback-tx)
