@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ButtonPrimary} from '@spotify-internal/creator-tape';
+import { ButtonPrimary, FormInput} from '@spotify-internal/creator-tape';
 import {gray95, white, aubergine} from '@spotify-internal/tokens/creator/web/tokens.common';
 
 export const Wrapper = styled.div`
@@ -45,3 +45,7 @@ export const Submit = styled(ButtonPrimary)`
   margin-top: 50px;
   cursor: pointer;
 `;
+
+export const StyledFormInput = styled(FormInput)`
+  margin-bottom: 20px;
+`
