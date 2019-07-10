@@ -1,6 +1,5 @@
 (module coin GOVERNANCE
 
-
   ; --------------------------------------------------------------------------
   ; Schemas and Tables
 
@@ -55,6 +54,7 @@
     @doc "Debit AMOUNT from ACCOUNT balance recording DATE and DATA"
 
     @model [(property (> amount 0.0))]
+   ; (enforce (> amount 0.0) "AMOUNT must be positive")
 
     (require-capability (TRANSFER))
     (with-capability (ACCOUNT_GUARD account)
@@ -72,6 +72,7 @@
     @doc "Credit AMOUNT to ACCOUNT balance recording DATE and DATA"
 
     @model [(property (> amount 0.0))]
+    ;(enforce (> amount 0.0) "AMOUNT must be positive")
 
     (require-capability (TRANSFER))
     (with-default-read coin-table account

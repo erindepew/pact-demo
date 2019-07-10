@@ -1,0 +1,42 @@
+(begin-tx)
+
+(env-data { "grumpy-cat-llc-keyset" : ["grumpy-cat-llc"], "alice-keyset": ["alice"]})
+(env-keys ["grumpy-cat-llc", "alice"])
+(define-keyset 'grumpy-cat-llc-keyset (read-keyset "grumpy-cat-llc-keyset"))
+
+;;Set block time to (time "2019-05-08T17:03:20Z")
+(env-chain-data {"block-time": 1557335000})
+
+(load "coin.pact")
+(use coin)
+(load "crowdfund.pact")
+
+(use uber-4-cats-crowdfund)
+(typecheck 'uber-4-cats-crowdfund)
+(verify 'uber-4-cats-crowdfund)
+
+;;Create Alice's account
+(create-account 'Alice (read-keyset "alice-keyset"))
+;;Allow to credit Alice's account
+(test-capability (TRANSFER))
+(credit 'Alice (read-keyset 'alice-keyset) 150.0)
+
+;; Alice funds $100 to crowdfund
+(fund "Alice" 100.00)
+(expect "100.0 is transferred to crowdfund account" 100.0 (account-balance 'crowdfund-account))
+(expect "Alice's account is debited" 50.0 (account-balance 'Alice))
+
+(expect-failure "cannot fund with amount bigger than the funder's balance" (fund "Alice" 70.00))
+(expect-failure "cannot fund with $0" (fund "Alice" 0.00))
+(expect-failure "cannot fund with negative dollars" (fund "Alice" -100.00))
+
+;;Set current time to 8 days later
+(env-chain-data {"block-time": (+ 1557335000 691200)})
+
+(expect "Fundrasing amount" 1000.0 (at 'amount (read crowdfund-details-table 'crowdfund-uber-4-cats)))
+
+(expect-failure "Insufficient funding" (finalize-fund (crowdfund-guard)))
+
+;;Set block time to 1 days later to refund period
+(env-chain-data {"block-time": (+ (+ 1557335000 691200) 86400)})
+(refund (read-keyset 'alice-keyset) 'Alice)

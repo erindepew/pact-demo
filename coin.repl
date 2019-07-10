@@ -1,14 +1,15 @@
 (begin-tx)
 (load "coin.pact")
 
-(verify 'coin)
+;(verify 'coin)
 
-(env-data { "k1" : ["keys1"], "k2": ["keys2"], "k3": ["keys3"] })
 (env-keys ["keys1", "keys2", "keys3"])
+(env-data { "k1" : ["keys1"], "k2": ["keys2"], "k3": ["keys3"] })
+
 (define-keyset 'k1 (read-keyset "k1"))
 (define-keyset 'k2 (read-keyset "k2"))
 (define-keyset 'k3 (read-keyset "k3"))
-
+(verify 'coin)
 (use coin)
 
 ; account balance for k1 does not exist, because account does not exist yet
