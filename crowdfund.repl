@@ -1,7 +1,7 @@
 (begin-tx)
 
 (env-data { "grumpy-cat-llc-keyset" : ["grumpy-cat-llc"], "alice-keyset": ["alice"]})
-(env-keys ["grumpy-cat-llc", "alice"])
+(env-keys ["grumpy-cat-llc" "alice"])
 (define-keyset 'grumpy-cat-llc-keyset (read-keyset "grumpy-cat-llc-keyset"))
 
 ;;Set block time to (time "2019-05-08T17:03:20Z")
