@@ -2,9 +2,9 @@
   "dependencies": {
     "axios": "^0.19.0",
     "pact-lang-api": "^3.0.0"
-},
+  },
   "scripts": {
     "start:pact": "rm -Rf ./log && mkdir log && pact --serve pact-dev-server.conf",
     "pact:seed": "./initialize-crowdfund.sh 9001"
-}
+  }
 }
