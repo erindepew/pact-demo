@@ -38,7 +38,7 @@ class App extends Component {
       <Wrapper>
         {error ? <Banner variant={Banner.error}>Funding was not successful, please try again</Banner> : ''}
         {success ? <Banner variant={Banner.success}>Funding was successful!</Banner> : ''}
-        <Header > <Type.h1 variant={Type.heading1} color={white}>Generic Crowd-Funding App LLC.</Type.h1> </Header>
+        <Header > <Type.h1 variant={Type.heading1} color={white}>Generic Crowd-Funding App</Type.h1> </Header>
         <Content>
         <Type.h2 variant={Type.heading2} color={gray20}>Uber 4 Cats</Type.h2>
         <Type.h4 variant={Type.heading4} color={gray40}>Cat delivery right to your door!</Type.h4>
@@ -51,7 +51,7 @@ class App extends Component {
           <Type.span variant={Type.heading4} color={gray20} weight={Type.bold}>521</Type.span> backers</Type.h4>
         <Type.h4 variant={Type.heading4} color={gray20}>
           <Type.span variant={Type.heading4} color={gray20} weight={Type.bold}>23</Type.span> days to go</Type.h4>
-          <Submit onClick={() => this.openFundModal()}>Back This Project</Submit>
+          <Submit onClick={() => this.openFundModal()}>Fund This Project</Submit>
         </Sidebar>
         { modalIsOpen ? <DialogFullScreen
             onClose={() => this.closeFundModal()}
@@ -59,7 +59,7 @@ class App extends Component {
             bodyTitle=""
             body={
               <FormGroup>
-                <StyledFormInput onChange={(event) => this.setState({account: event.target.value})} type="text" placeholder="Enter account name"/>
+                <StyledFormInput onChange={(event) => this.setState({account: event.target.value})} type="text" placeholder="Enter public key"/>
                 <StyledFormInput onChange={(event) => this.setState({amount: event.target.value})} type="text" placeholder="Enter amount" />
               </FormGroup>
             }

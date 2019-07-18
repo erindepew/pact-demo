@@ -28,7 +28,7 @@
     start-time:time
     funding-days:integer
     finalization-days:integer
-    recepient-address:string)
+    recipient-address:string)
 
   (defschema funders
     funded-amount:decimal)
@@ -40,13 +40,13 @@
   ;; create-funder
 
   ;; set configuration for this crowdfund project
-  (defun crowdfund-details-config (amount:decimal funding-days:integer finalization-days:integer recepient-address:string)
+  (defun crowdfund-details-config (amount:decimal funding-days:integer finalization-days:integer recipient-address:string)
     (insert crowdfund-details-table CROWDFUND_DETAILS_KEY
       { "amount" : amount
       , "start-time": (current-time)
       , "funding-days": funding-days
       , "finalization-days": finalization-days
-      , "recepient-address": recepient-address
+      , "recipient-address": recipient-address
       })
   )
 
@@ -85,7 +85,7 @@
       , "funding-days" := funding-days
       , "finalization-days" := finalization-days
       , "amount" := amount
-      , "recepient-address" := recepient-address
+      , "recipient-address" := recipient-address
       }
       ;; enforce that it's within payout window
       (enforce (> (current-time) (add-time start-time (days funding-days))) "Funding time has not yet expired")
@@ -97,7 +97,7 @@
         (enforce (>= funding amount) "Insufficient funding"))
       ;; with-capability = for this portion of the stack allow ability to withdraw from crowdfund account
       (with-capability (crowdfund)
-        (transfer CROWDFUND_ACCOUNT recepient-address keyset amount)
+        (transfer CROWDFUND_ACCOUNT recipient-address keyset amount)
       )
     )
   )
