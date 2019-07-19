@@ -1,14 +1,15 @@
 (begin-tx)
-(load "coin.pact")
 
-;(verify 'coin)
+(env-data { "k1" : ["keys1"], "k2": ["keys2"], "k3": ["keys3"], "alice-keyset": ["alice"], "bob-keyset": ["bob"]})
+(env-keys ["keys1" "keys2" "keys3" "alice" "bob"])
 
-(env-keys ["keys1", "keys2", "keys3"])
-(env-data { "k1" : ["keys1"], "k2": ["keys2"], "k3": ["keys3"] })
-
+(define-keyset 'alice-keyset (read-keyset "alice-keyset"))
+(define-keyset 'bob-keyset (read-keyset "bob-keyset"))
 (define-keyset 'k1 (read-keyset "k1"))
 (define-keyset 'k2 (read-keyset "k2"))
 (define-keyset 'k3 (read-keyset "k3"))
+
+(load "coin.pact")
 (verify 'coin)
 (use coin)
 

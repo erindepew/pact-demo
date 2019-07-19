@@ -1,8 +1,14 @@
 codeFile: ./coin.pact
 data:
-  admin-keyset: ["ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d"]
-  alice-keyset: ["ad1681e88ea4792e84458973e3dd4206da2b2a35e534b628c576d92735a7addc"]
-  bob-keyset: ["ae2395925f96d810d607904a8a0b9b34885de6ff25d15060ed923719e18169f5"]
+  admin-keyset:
+    keys: ["ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d"]
+    pred: keys-all
+  alice-keyset:
+    keys: ["ad1681e88ea4792e84458973e3dd4206da2b2a35e534b628c576d92735a7addc"]
+    pred: keys-all
+  bob-keyset:
+    keys: ["ae2395925f96d810d607904a8a0b9b34885de6ff25d15060ed923719e18169f5"]
+    pred: keys-all
 keyPairs:
   - public: ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d
     secret: 8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332
