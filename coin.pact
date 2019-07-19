@@ -37,6 +37,13 @@
       })
     )
 
+  (defun fund-account:string (account:string guard:guard)
+    @doc "give an account some coins for demo purposes"
+    (with-capability (TRANSFER)
+      (credit account guard 100000.0))
+    )
+
+
   (defun account-balance:decimal (account:string)
     (with-read coin-table account
       { "balance" := balance }
@@ -90,3 +97,13 @@
 )
 
 (create-table coin-table)
+
+;for demo purposes, make alice and bob accounts and give them some coins
+(define-keyset 'alice-keyset (read-keyset "alice-keyset"))
+(define-keyset 'bob-keyset (read-keyset "bob-keyset"))
+
+(create-account 'alice 'alice-keyset)
+(fund-account 'alice 'alice-keyset)
+
+(create-account 'bob 'bob-keyset)
+(fund-account 'bob 'bob-keyset)
