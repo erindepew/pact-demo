@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Type, DialogFullScreen,FormGroup, Banner, ButtonTertiary, ButtonPrimary } from '@spotify-internal/creator-tape';
 import {white, gray20, gray40} from '@spotify-internal/tokens/creator/web/tokens.common';
 import {Wrapper, Header, Content, Submit, Sidebar, ProjectImage, StyledFormInput} from './styles';
-import {fund} from './api';
+import {fund, listen} from './api';
 
 class App extends Component {
   state = {
@@ -10,7 +10,8 @@ class App extends Component {
     account: null,
     amount: 0,
     success: false,
-    error: false
+    error: false,
+    complete: false,
   }
   openFundModal = () => {
     this.setState({modalIsOpen: true});
@@ -20,24 +21,30 @@ class App extends Component {
     this.setState({modalIsOpen: false, account: null, amount: 0})
   }
 
-  fund = async() => {
+  fund = () => {
     const {account, amount} = this.state;
-    this.setState({success: false, error: false});
+    this.setState({success: '', error: '', complete: ''});
     try {
-      await fund(account, amount);
-      this.setState({success: true})
+      fund(account, amount).then((res) => {
+        debugger;
+        this.setState({success: 'Fund request successfully added to mem pool.', modalIsOpen: false, account: null, amount: 0})
+        listen(res.requestKeys[0]).then((res) => {
+        this.setState({complete: `${res.data.payee} successfully funded $${res.data['funding-amount']} to Uber 4 Cats`})
+        });
+      });
     }
     catch(e) {
-      this.setState({error: true});
+      this.setState({error: 'Fund request not successfully added to mem pool'});
     }
 
   }
   render() {
-    const {error, success, modalIsOpen } = this.state;
+    const {error, success, complete, modalIsOpen } = this.state;
     return (
       <Wrapper>
-        {error ? <Banner variant={Banner.error}>Funding was not successful, please try again</Banner> : ''}
-        {success ? <Banner variant={Banner.success}>Funding was successful!</Banner> : ''}
+        {error.length ? <Banner variant={Banner.error}>{error}</Banner> : ''}
+        {success.length ? <Banner variant={Banner.success}>{success}</Banner> : ''}
+        {complete.length ? <Banner variant={Banner.success}>{complete}</Banner> : ''}
         <Header > <Type.h1 variant={Type.heading1} color={white}>Generic Crowd-Funding App</Type.h1> </Header>
         <Content>
         <Type.h2 variant={Type.heading2} color={gray20}>Uber 4 Cats</Type.h2>
@@ -59,7 +66,7 @@ class App extends Component {
             bodyTitle=""
             body={
               <FormGroup>
-                <StyledFormInput onChange={(event) => this.setState({account: event.target.value})} type="text" placeholder="Enter public key"/>
+                <StyledFormInput onChange={(event) => this.setState({account: event.target.value})} type="text" placeholder="Enter account name"/>
                 <StyledFormInput onChange={(event) => this.setState({amount: event.target.value})} type="text" placeholder="Enter amount" />
               </FormGroup>
             }

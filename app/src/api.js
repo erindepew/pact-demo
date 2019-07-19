@@ -7,28 +7,31 @@ const GrumpyCatKeyPair =
   { publicKey: "ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d"
   , secretKey: "8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332" };
 
+const MODULE_NAME = 'uber-4-cats-crowdfund'
 const API_HOST = "http://localhost:9001";
 
 export const fund = (account, amount) => {
     const cmdObj = {
-        pactCode: `(crowdfund.fund ${JSON.stringify(account)} ${JSON.stringify(amount)})`,
+        pactCode: `(${MODULE_NAME}.fund ${JSON.stringify(account)} ${amount})`,
         keyPairs: AliceKeyPair
       };
-    Pact.send(cmdObj, API_HOST);
+    return Pact.fetch.send(cmdObj, API_HOST);
   }
 
 export const refund = (keyset, account) => {
     const cmdObj = {
-        pactCode: `(crowdfund.refund ${JSON.stringify(keyset)} ${JSON.stringify(account)}`,
+        pactCode: `(${MODULE_NAME}.refund ${JSON.stringify(keyset)} ${JSON.stringify(account)}`,
         keyPairs: AliceKeyPair
       };
-    Pact.send(cmdObj, API_HOST);
+    Pact.fetch.send(cmdObj, API_HOST);
 }
 
 export const payoutProject = (keyset) => {
     const cmdObj = {
-        pactCode: `(crowdfund.finalize-fund ${JSON.stringify(keyset)})`,
+        pactCode: `(${MODULE_NAME}.finalize-fund ${JSON.stringify(keyset)})`,
         keyPairs: GrumpyCatKeyPair
       };
-    Pact.send(cmdObj, API_HOST);
+    Pact.fetch.send(cmdObj, API_HOST);
 }
+
+export const listen = (requestKey) => Pact.fetch.listen({ listen: requestKey}, API_HOST);

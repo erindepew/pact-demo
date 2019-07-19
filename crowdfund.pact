@@ -76,6 +76,7 @@
       (write funders-table payee
         {"funded-amount" : (+ funded-amount funding-amount)})
     )
+    {"payee":payee, "funding-amount":funding-amount}
   )
 
   ;; payout to "fundee" if the crowdfund project is successfully completed
