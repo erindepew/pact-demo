@@ -99,11 +99,11 @@
 (create-table coin-table)
 
 ;for demo purposes, make alice and bob accounts and give them some coins
-(define-keyset 'alice-keyset (read-keyset "alice-keyset"))
-(define-keyset 'bob-keyset (read-keyset "bob-keyset"))
+;(define-keyset 'alice-keyset (read-keyset "alice-keyset"))
+;(define-keyset 'bob-keyset (read-keyset "bob-keyset"))
 
-(create-account 'alice 'alice-keyset)
-(fund-account 'alice 'alice-keyset)
+(create-account 'alice (read-keyset "alice-keyset"))
+(fund-account 'alice (read-keyset "alice-keyset"))
 
-(create-account 'bob 'bob-keyset)
-(fund-account 'bob 'bob-keyset)
+(create-account 'bob (read-keyset "bob-keyset"))
+(fund-account 'bob (read-keyset "bob-keyset"))
